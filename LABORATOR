@@ -147,7 +147,7 @@ int Student::anCurent=2;
 int main()
 {
 
-    cout<<Student::anCurent;
+    cout<<Student::anCurent<<endl;
     Student::mesaj();
     cout<<endl<<endl;
 
@@ -187,7 +187,7 @@ int main()
     for(int i=0; i<s2.getNrNote(); i++)
         cout<<*(note3+i)<<" ";
     cout<<endl<<endl;
-    cout<<s2.medieStudent();
+    cout<<"Media notelor este: "<<s2.medieStudent()<<endl;
 
 
     return 0;
