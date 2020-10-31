@@ -171,9 +171,9 @@ int main()
         cout<<*(note+i)<<" ";
     cout<<endl<<endl;
 
-    cout<<s2.getVarsta()<<endl;
+    cout<<"Varsta initiala era: "<<s2.getVarsta()<<endl;
     s2.setVarst(44);
-    cout<<s2.getVarsta()<<endl<<endl;
+    cout<<"Varsta noua este: "<<s2.getVarsta()<<endl<<endl;
 
 
     int* note2=s2.getNote();
