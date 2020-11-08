@@ -1,1 +1,1263 @@
+#include <iostream>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+class Jucator
+{
+private:
+    int varstaJucator;
+    bool major;
+    char initialaTatalui;
+    char* numeJucator;
+    char rol[100];
+    float oreJucate;
+    int* istoricPutere4;
+    const long int ID_Jucator;
+public:
+    static int inaltimeJucator;
+
+    Jucator():ID_Jucator(0)
+    {
+        this->numeJucator="Anonymous";
+        this->major==0;
+        this->initialaTatalui='X';
+        this->varstaJucator=0;
+        strcpy(this->rol,"Necunoscut");
+        this->oreJucate=0;
+
+        this->istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            this->istoricPutere4[i]=0;
+    }
+
+    Jucator(int id,char* numeJucator,int varstaJucator,bool major,char initialaTatalui,char rol[100],float oreJucate,int* istoricPutere4):ID_Jucator(id)
+    {
+        this->numeJucator=new char[strlen(numeJucator)+1];
+        strcpy(this->numeJucator,numeJucator);
+
+        this->varstaJucator=varstaJucator;
+        this->major=major;
+        this->initialaTatalui=initialaTatalui;
+        strncpy(this->rol,rol,strlen(rol)+1);
+        this->oreJucate=oreJucate;
+        this->istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            this->istoricPutere4[i]=istoricPutere4[i];
+
+    }
+
+    Jucator(int id,char* numeJucator,char rol[100]):ID_Jucator(id)
+    {
+        this->numeJucator=new char[strlen(numeJucator)+1];
+        strcpy(this->numeJucator,numeJucator);
+
+        strncpy(this->rol,rol,strlen(rol)+1);
+
+        this->major==0;
+        this->initialaTatalui='X';
+        this->varstaJucator=0;
+        this->oreJucate=0;
+
+        this->istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            this->istoricPutere4[i]=0;
+    }
+
+//functionalitate care intoarce media istoricului de putere 4
+    float notaIstoric()
+    {
+        float c=0;
+        for(int i=0; i<4; i++)
+            c+=this->istoricPutere4[i];
+        return c/4;
+    }
+
+
+//SETTERS
+
+    void setNumeJucator(char* numeJucator)
+    {
+        if(this->numeJucator!=nullptr)
+            delete[] this->numeJucator;
+
+        this->numeJucator=new char[strlen(numeJucator)+1];
+        strcpy(this->numeJucator,numeJucator);
+    }
+    void setVarstaJucator(int varstaJucator)
+    {
+        this->varstaJucator=varstaJucator;
+    }
+    void setInitialaTatalui(char initialaTatalui)
+    {
+        this->initialaTatalui=initialaTatalui;
+    }
+    void setMajor(bool major)
+    {
+        this->major=major;
+    }
+    void setRol(char rol[100])
+    {
+        strcpy(this->rol,rol);
+    }
+    void setOreJucate(float oreJucate)
+    {
+        this->oreJucate=oreJucate;
+    }
+    void setIstoricPutere4(int* istoricPutere4)
+    {
+        if(this->istoricPutere4!=nullptr)
+            delete[] this->istoricPutere4;
+
+        this->istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            this->istoricPutere4[i]=istoricPutere4[i];
+    }
+
+//GETTERS
+    char* getNumeJucator()
+    {
+        return this->numeJucator;
+    }
+    int getVarstaJucator()
+    {
+        return this->varstaJucator;
+    }
+    bool getMajor()
+    {
+        return this->major;
+    }
+    char getInitialaTatalui()
+    {
+        return this->initialaTatalui;
+    }
+    char* getRol()
+    {
+        return this->rol;
+    }
+    float getOreJucate()
+    {
+        return this->oreJucate;
+    }
+    int* getIstoricPutere4()
+    {
+        return this->istoricPutere4;
+    }
+    const int getID_Jucator()
+    {
+        return this->ID_Jucator;
+    }
+
+
+
+    friend istream& operator>>(istream& in, Jucator& J)
+    {
+
+        char copyy[40];
+        cout<<"\nNumele jucatorului: ";
+        in>>copyy;
+        cout<<"1";
+        if(J.numeJucator!=NULL)
+        {
+            cout<<"2";
+            J.numeJucator=NULL;
+            cout<<"3";
+        }
+        cout<<"4";
+        J.numeJucator=new char[strlen(copyy)+1];
+        cout<<"5";
+        strcpy(J.numeJucator,copyy);
+
+        cout<<"\nInitiala tatalui: ";
+        in>>J.initialaTatalui;
+        cout<<"\nMajor/Junior?(1/0)";
+        in>>J.major;
+        cout<<"\nVarsta jucator: ";
+        in>>J.varstaJucator;
+        cout<<"\nRol: ";
+        in>>J.rol;
+        cout<<"\nOre jucate: ";
+        in>>J.oreJucate;
+
+        if(J.istoricPutere4!=NULL)
+            delete[] J.istoricPutere4;
+        J.istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            in>>J.istoricPutere4[i];
+
+        return in;
+    }
+
+    friend ostream& operator<<(ostream& out,const Jucator J)
+    {
+        out<<"\nJucatorul "<<J.initialaTatalui<<". "<<J.numeJucator<<" este ";
+        if(J.major)
+            out<<"major";
+        else
+            out<<"minor";
+
+        cout<<", are "<<J.varstaJucator<<" ani, are rol "<<J.rol<<", are "<<J.oreJucate<<" ore jucate, iar istoricul lui este:";
+
+        for(int i=0; i<4; i++)
+            out<<J.istoricPutere4[i]<<" ";
+
+        return out;
+
+    }
+//copy const
+    Jucator(const Jucator& J):ID_Jucator(J.ID_Jucator)
+    {
+        this->numeJucator=new char[strlen(J.numeJucator)+1];
+        strcpy(this->numeJucator,J.numeJucator);
+
+        this->varstaJucator=J.varstaJucator;
+        this->major=J.major;
+        this->initialaTatalui=J.initialaTatalui;
+        strncpy(this->rol,J.rol,strlen(J.rol)+1);
+        this->oreJucate=J.oreJucate;
+        this->istoricPutere4=new int[4];
+        for(int i=0; i<4; i++)
+            this->istoricPutere4[i]=J.istoricPutere4[i];
+    }
+
+    // = const
+    Jucator& operator =(const Jucator& J)
+    {
+        if(this!=&J)
+        {
+            cout<<endl<<"1";
+            if(this->numeJucator!=NULL)
+                //cout<<endl<<"ESTE INTRADEVAR";
+                this->numeJucator=NULL;
+            cout<<endl<<"2";
+            this->numeJucator=new char[strlen(J.numeJucator)+1];
+            cout<<endl<<"3";
+            strcpy(this->numeJucator,J.numeJucator);
+            cout<<endl<<"4";
+            this->varstaJucator=J.varstaJucator;
+            this->major=J.major;
+            this->initialaTatalui=J.initialaTatalui;
+            strncpy(this->rol,J.rol,strlen(J.rol)+1);
+            this->oreJucate=J.oreJucate;
+            this->istoricPutere4=new int[4];
+            for(int i=0; i<4; i++)
+                this->istoricPutere4[i]=J.istoricPutere4[i];
+
+
+
+        }
+        return *this;
+    }
+
+//op []
+    int operator [](int index)
+    {
+        if(index<4 && index>=0)
+            return this->istoricPutere4[index];
+        else
+        {
+            cout<<"!!!Index invalid!!!";
+            return -1;
+        }
+    }
+
+//op +
+    Jucator& operator +(Jucator J)
+    {
+
+        Jucator *p=new Jucator(*this);
+
+        char aux[100]= {NULL};
+        strcat(aux,this->numeJucator);
+        strcat(aux," & ");
+        strcat(aux,J.numeJucator);
+
+        delete[] p->numeJucator;
+
+        p->numeJucator=new char[strlen(aux)+1];
+        strcpy(p->numeJucator,aux);
+
+        p->oreJucate=this->oreJucate+J.oreJucate;
+
+        return *p;
+    }
+
+//op -
+    Jucator& operator -(Jucator J)
+    {
+
+        Jucator *p=new Jucator(*this);
+        p->oreJucate=abs(this->oreJucate-J.oreJucate);
+
+
+        return *p;
+    }
+//op ++
+    const Jucator operator++(int)
+    {
+        Jucator aux(*this);
+        this->varstaJucator++;
+        if(this->varstaJucator>=18)
+            this->major=true;
+        return aux;
+    }
+//op --
+    const Jucator operator--(int)
+    {
+        Jucator aux(*this);
+        this->varstaJucator--;
+        if(this->varstaJucator<18)
+            this->major=false;
+        return aux;
+    }
+//OP ==
+    bool operator ==(Jucator& J)
+    {
+        if(this->rol==J.rol and this->major==J.major)
+            return true;
+        else
+            return false;
+    }
+//op >
+    bool operator >(Jucator& J)
+    {
+        if(this->varstaJucator>J.varstaJucator)
+            return true;
+        else
+            return false;
+    }
+//explicit operator int()
+    explicit operator int()
+    {
+        return (int)this->oreJucate;
+    }
+
+
+
+
+    ~Jucator()
+    {
+        //cout<<endl<<"DESTRUCTOR"<<endl;
+    }
+};
+
+class Echipa
+{
+private:
+    char* numeEchipa;
+    int nrLocuriCastigate;
+    int* locuriCastigate;
+    bool junior;
+    char nota;
+    char numeUltTurn[100];
+    float medieVarsta;
+    const int ID_Echipa;
+public:
+    static int marimeEchipa;
+    Jucator juc;
+    static void mesaj()
+    {
+        cout<<"                    \\\\\\\\\\\\\\\   \\\   \\\\\\ - Bine ati venit la turneu! - ///   /   ////////"<<endl;
+    }
+
+
+    Echipa():ID_Echipa(0)
+    {
+        this->numeEchipa=new char[strlen("Anonim")+1];
+        strcpy(this->numeEchipa,"Anonim");
+        this->nrLocuriCastigate=0;
+        this->locuriCastigate=new int[nrLocuriCastigate];
+        for(int i=0; i<nrLocuriCastigate; i++)
+            this->locuriCastigate[i]=0;
+        this->junior=0;
+        this->nota='F';
+        strcpy(this->numeUltTurn,"nimic");
+        this->medieVarsta=0;
+
+    }
+
+    Echipa(int id,char* numeEchipa,int nrLocuriCastigate,int* locuriCastigate,bool junior,char nota, char numeUltTurn[100], float medieVarsta):ID_Echipa(id)
+    {
+        this->numeEchipa=new char[strlen(numeEchipa)+1];
+        strcpy(this->numeEchipa,numeEchipa);
+
+        this->nrLocuriCastigate=nrLocuriCastigate;
+
+        this->locuriCastigate=new int[nrLocuriCastigate];
+        for(int i=0; i<nrLocuriCastigate; i++)
+            this->locuriCastigate[i]=locuriCastigate[i];
+
+        this->junior=junior;
+
+        this->nota=nota;
+
+        strncpy(this->numeUltTurn,numeUltTurn,strlen(numeUltTurn)+1);
+
+        this->medieVarsta=medieVarsta;
+
+    }
+
+    Echipa(int id,char* numeEchipa,bool junior):ID_Echipa(id)
+    {
+        this->numeEchipa=new char[strlen(numeEchipa)+1];
+        strcpy(this->numeEchipa,numeEchipa);
+        this->junior=junior;
+
+
+        this->nrLocuriCastigate=0;
+        this->locuriCastigate=new int[nrLocuriCastigate];
+        for(int i=0; i<nrLocuriCastigate; i++)
+            this->locuriCastigate[i]=0;
+        this->nota='F';
+        strcpy(this->numeUltTurn,"nimic");
+        this->medieVarsta=0;
+    }
+
+//functionalitate care intoarce un numar care reprezinta numarul turneelor in care o echipa a iesit strict pe primul loc.
+    int nr1st()
+    {
+        int c=0;
+        for(int i=0; i<nrLocuriCastigate; i++)
+            if(locuriCastigate[i]==1)
+                c++;
+        return c;
+    }
+
+
+
+//getters
+    char* getNumeEchipa()
+    {
+        return this->numeEchipa;
+    }
+
+    int getNrLocuriCastigate()
+    {
+        return this->nrLocuriCastigate;
+    }
+
+    int* getLocuriCastigate()
+    {
+
+        return this->locuriCastigate;
+    }
+
+    bool getJunior()
+    {
+        return this->junior;
+    }
+
+    char getNota()
+    {
+        return this->nota;
+    }
+
+    char* getNumeUltTurn()
+    {
+        return this->numeUltTurn;
+    }
+
+    float getMedieVarsta()
+    {
+        return this->medieVarsta;
+    }
+
+    const int getID_Echipa()
+    {
+        return this->ID_Echipa;
+    }
+
+
+
+
+//setters
+
+
+
+    void setNumeEchipa(char* numeEchipa)
+    {
+        if(this->numeEchipa!=nullptr)
+            delete[] this->numeEchipa;
+
+        this->numeEchipa=new char[strlen(numeEchipa)+1];
+        strcpy(this->numeEchipa,numeEchipa);
+    }
+
+    void setNrLocuriCastigate(int nrLocuriCastigate)
+    {
+        this->nrLocuriCastigate=nrLocuriCastigate;
+    }
+
+    void setLocuriCastigate(int* locuriCastigate, int nrNouLocuriCastigate)
+    {
+        if(this->locuriCastigate!=nullptr)
+            delete[] this->locuriCastigate;
+
+        this->nrLocuriCastigate=nrNouLocuriCastigate;
+        this->locuriCastigate=new int[nrNouLocuriCastigate];
+
+        for(int i=0; i<nrNouLocuriCastigate; i++)
+            this->locuriCastigate[i]=locuriCastigate[i];
+    }
+
+    void setJunior(bool junior)
+    {
+        this->junior=junior;
+    }
+
+    void setNota(char nota)
+    {
+        this->nota=nota;
+    }
+
+    void setNumeUltTurn(char numeUltTurn[100])
+    {
+        strcpy(this->numeUltTurn,numeUltTurn);
+    }
+
+
+
+
+
+
+    //Copy Const
+    Echipa(const Echipa& Ech):ID_Echipa(Ech.ID_Echipa)
+    {
+        this->numeEchipa=new char[strlen(Ech.numeEchipa)+1];
+        strcpy(this->numeEchipa,Ech.numeEchipa);
+
+        this->nrLocuriCastigate=Ech.nrLocuriCastigate;
+
+        this->locuriCastigate=new int[Ech.nrLocuriCastigate];
+        for(int i=0; i<Ech.nrLocuriCastigate; i++)
+            this->locuriCastigate[i]=Ech.locuriCastigate[i];
+
+        this->junior=Ech.junior;
+
+        this->nota=Ech.nota;
+
+        strncpy(this->numeUltTurn,Ech.numeUltTurn,strlen(Ech.numeUltTurn)+1);
+
+        this->medieVarsta=Ech.medieVarsta;
+    }
+
+    // = Const
+    Echipa& operator =(const Echipa& Ech)
+    {
+        if(this!=&Ech)
+        {
+            //if(this->numeEchipa!=NULL)
+            delete[] this->numeEchipa;
+            this->numeEchipa=new char[strlen(Ech.numeEchipa)+1];
+            strcpy(this->numeEchipa,Ech.numeEchipa);
+
+            this->nrLocuriCastigate=Ech.nrLocuriCastigate;
+            //if(this->locuriCastigate!=NULL)
+            //delete[] this->locuriCastigate;
+            this->locuriCastigate=new int[Ech.nrLocuriCastigate];
+            for(int i=0; i<Ech.nrLocuriCastigate; i++)
+                this->locuriCastigate[i]=Ech.locuriCastigate[i];
+
+            this->junior=Ech.junior;
+
+            this->nota=Ech.nota;
+
+            strncpy(this->numeUltTurn,Ech.numeUltTurn,strlen(Ech.numeUltTurn)+1);
+
+            this->medieVarsta=Ech.medieVarsta;
+        }
+        return *this;
+    }
+
+
+
+
+    int operator [](int index)
+    {
+        if(index<this->nrLocuriCastigate && index>=0)
+            return this->locuriCastigate[index];
+        else
+        {
+            cout<<"!!!Index invalid!!!";
+            return -1;
+        }
+    }
+
+    Echipa& operator +(Echipa Ech)
+    {
+
+        Echipa *p=new Echipa(*this);
+
+        char aux[100]= {NULL};
+        strcat(aux,this->numeEchipa);
+        strcat(aux," & ");
+        strcat(aux,Ech.numeEchipa);
+
+        delete[] p->numeEchipa;
+
+        p->numeEchipa=new char[strlen(aux)+1];
+        strcpy(p->numeEchipa,aux);
+
+        p->nrLocuriCastigate=this->nrLocuriCastigate+Ech.nrLocuriCastigate;
+
+        return *p;
+    }
+
+//op -
+    Echipa& operator -(Echipa Ech)
+    {
+
+        Echipa *p=new Echipa(*this);
+
+        p->nrLocuriCastigate=abs(this->nrLocuriCastigate-Ech.nrLocuriCastigate);
+
+        return *p;
+    }
+
+
+    const Echipa operator++(int)
+    {
+        Echipa aux(*this);
+        this->nrLocuriCastigate++;
+
+        return aux;
+    }
+
+    const Echipa operator--(int)
+    {
+        Echipa aux(*this);
+        this->nrLocuriCastigate--;
+
+        return aux;
+    }
+
+    bool operator ==(Echipa& Ech)
+    {
+        if(this->nota==Ech.nota and this->junior==Ech.junior)
+            return true;
+        else
+            return false;
+    }
+    bool operator >(Echipa& Ech)
+    {
+        if(this->junior==0 && Ech.junior==1)
+            return true;
+        else
+            return false;
+    }
+
+
+
+    explicit operator int()
+    {
+        return (int)this->medieVarsta;
+    }
+
+
+
+
+    void afisare()
+    {
+        cout<<"\nEchipa "<<this->numeEchipa<<" are "<<this->nrLocuriCastigate<<" locuri castigate, acestea fiind: ";
+        for(int i=0; i<this->nrLocuriCastigate; i++)
+            cout<<this->locuriCastigate[i]<<" ";
+
+        if(this->junior)
+            cout<<". Echipa este formata din junioi";
+        else
+            cout<<". Echipa este formata din seniori";
+        cout<<", este de tier "<<this->nota<<", iar ultimul turneu jucat a fost "<<this->numeUltTurn<<". Media varstelor este: "<<this->medieVarsta<<endl;
+    }
+
+// <<<<<<<<<<<
+    friend ostream& operator<<(ostream& out,const Echipa Ech)
+    {
+        out<<"\nEchipa "<<Ech.numeEchipa<<" are "<<Ech.nrLocuriCastigate<<" locuri castigate, acestea fiind: ";
+        for(int i=0; i<Ech.nrLocuriCastigate; i++)
+            out<<Ech.locuriCastigate[i]<<" ";
+
+        if(Ech.junior)
+            out<<". Echipa este formata din junioi";
+        else
+            out<<". Echipa este formata din seniori";
+        out<<", este de tier "<<Ech.nota<<", iar ultimul turneu jucat a fost "<<Ech.numeUltTurn<<". Media varstelor este: "<<Ech.medieVarsta<<endl;
+
+        return out;
+
+    }
+
+
+
+    void citire()
+    {
+
+
+        cout<<"\nNumele echipei: ";
+        cin>>this->numeEchipa;
+        cout<<"\nNumarul de locuri castigate: ";
+        cin>>this->nrLocuriCastigate;
+        cout<<", acestea fiind: ";
+        if(this->locuriCastigate!=NULL)
+            delete[] this->locuriCastigate;
+        this->locuriCastigate=new int[nrLocuriCastigate];
+        for(int i=0; i<this->nrLocuriCastigate; i++)
+            cin>>this->locuriCastigate[i];
+        cout<<"\nJuniori/Seniori? (1/0)";
+        cin>>this->junior;
+        cout<<"\nTier echipa: ";
+        cin>>this->nota;
+        cout<<"\nUltimul turneu jucat? ";
+        cin>>this->numeUltTurn;
+
+    }
+// >>>>>>>>>>>
+    friend istream& operator>>(istream& in, Echipa& Ech)
+    {
+
+        char copyy[40];
+        cout<<"\nNumele echipei: ";
+        in>>copyy;
+        if(Ech.numeEchipa!=NULL)
+            delete[] Ech.numeEchipa;
+        Ech.numeEchipa=new char[strlen(copyy)+1];
+        strcpy(Ech.numeEchipa,copyy);
+
+        cout<<"\nNumarul de locuri castigate: ";
+        in>>Ech.nrLocuriCastigate;
+        cout<<"Acestea sunt: ";
+
+        if(Ech.locuriCastigate!=NULL)
+            delete[] Ech.locuriCastigate;
+        Ech.locuriCastigate=new int[Ech.nrLocuriCastigate];
+        for(int i=0; i<Ech.nrLocuriCastigate; i++)
+            in>>Ech.locuriCastigate[i];
+
+        cout<<"\nJuniori/Seniori? (1/0)";
+        in>>Ech.junior;
+        cout<<"\nTier echipa: ";
+        in>>Ech.nota;
+        cout<<"\nUltimul turneu jucat? ";
+        in>>Ech.numeUltTurn;
+
+        return in;
+    }
+
+
+//Destruc
+    ~Echipa()
+    {
+
+        //cout<<endl<<"Destructor"<<endl;
+        if(this->locuriCastigate!=nullptr)
+            delete[] this->locuriCastigate;
+        if(this->numeEchipa!=nullptr)
+            delete[] this->numeEchipa;
+    }
+};
+int Echipa::marimeEchipa=5;
+
+class Meci
+{
+private:
+    char tipMeci[30];
+    int durataMeci;
+    int* kd;
+    float notaMeci;
+public:
+    Meci()
+    {
+        strcpy(this->tipMeci,"Nespecificat");
+        this->durataMeci=0;
+        this->kd=new int[2];
+        for(int i=0; i<2; i++)
+            this->kd[i]=0;
+        this->notaMeci=0;
+    }
+    Meci(char tipMeci[30],int durataMeci,int* kd,float notaMeci)
+    {
+        strcpy(this->tipMeci,tipMeci);
+        this->durataMeci=durataMeci;
+        this->kd=new int[2];
+        for(int i=0; i<2; i++)
+            this->kd[i]=kd[i];
+        this->notaMeci=notaMeci;
+
+    }
+    Meci(char tipMeci[30])
+    {
+        strcpy(this->tipMeci,tipMeci);
+        this->durataMeci=0;
+        this->kd=new int[2];
+        for(int i=0; i<2; i++)
+            this->kd[i]=0;
+        this->notaMeci=0;
+
+    }
+
+//functionalitate care da o nota meciului
+    float notaMeciului()
+    {
+        float c=0;
+        for(int i=0; i<2; i++)
+            c=c+this->kd[i];
+
+        return c/this->durataMeci;
+    }
+
+//copy const
+    Meci(const Meci& M)
+    {
+        strncpy(this->tipMeci,M.tipMeci,strlen(M.tipMeci)+1);
+        this->durataMeci=M.durataMeci;
+        this->kd=new int[2];
+        for(int i=0; i<2; i++)
+            this->kd[i]=M.kd[i];
+        this->notaMeci=M.notaMeci;
+
+    }
+//= Const
+    Meci& operator =(const Meci& M)
+    {
+        cout<<endl<<"inceput";
+        if(this!=&M)
+        {
+            strcpy(this->tipMeci,M.tipMeci);
+            this->durataMeci=M.durataMeci;
+            this->kd=new int[2];
+            for(int i=0; i<2; i++)
+                this->kd[i]=M.kd[i];
+            this->notaMeci=M.notaMeci;
+        }
+        return *this;
+    }
+
+//op []
+    int operator [](int index)
+    {
+        if(index<2 && index>=0)
+            return this->kd[index];
+        else
+        {
+            cout<<"!!!Index invalid!!!";
+            return -1;
+        }
+    }
+//op +
+    Meci& operator +(Meci M)
+    {
+
+        Meci *p=new Meci(*this);
+
+        for(int i=0; i<2; i++)
+            p->kd[i]=this->kd[i]+M.kd[i];
+
+        p->durataMeci=this->durataMeci+M.durataMeci;
+        p->notaMeci=(this->notaMeci+M.notaMeci)/2;
+        return *p;
+    }
+//op -
+    Meci& operator -(Meci M)
+    {
+
+        Meci *p=new Meci(*this);
+        p->durataMeci=abs(this->durataMeci-M.durataMeci);
+
+
+        return *p;
+    }
+//op ++
+    const Meci operator++(int)
+    {
+        Meci aux(*this);
+        this->durataMeci++;
+
+        return aux;
+    }
+
+//<<
+    friend ostream& operator<<(ostream& out,const Meci M)
+    {
+        out<<endl<<"Meciul este de tip "<<M.tipMeci<<", a durat "<<M.durataMeci<<" minute, scorul a fost "<<M.kd[0]<<" - "<<M.kd[1]<<" acesta primind nota: "<<M.notaMeci<<"!";
+
+        return out;
+    }
+
+//>>
+    friend istream& operator>>(istream& in, Meci& M)
+    {
+        cout<<"\nTip meci: ";
+        in>>M.tipMeci;
+        cout<<"\nDurata meci: ";
+        in>>M.durataMeci;
+        cout<<"\nScor meci: ";
+        in>>M.kd[0]>>M.kd[1];
+        cout<<"\nMeciul primeste nota: ";
+        in>>M.notaMeci;
+    }
+
+
+    ~Meci()
+    {
+
+    }
+};
+
+class Campion
+{
+private:
+    char numeCampion[50];
+    float DMGCampion;
+    bool tipOmAnimal;
+public:
+    Campion()
+    {
+        strcpy(this->numeCampion,"Nespecificat");
+        this->DMGCampion=0;
+        this->tipOmAnimal=0;
+    }
+    Campion(char numeCampion[50],float DMGCampion,bool tipOmAnimal)
+    {
+        strncpy(this->numeCampion,numeCampion,strlen(numeCampion)+1);
+        this->DMGCampion=DMGCampion;
+        this->tipOmAnimal=tipOmAnimal;
+    }
+    Campion(char numeCampion[50],bool tipOmAnimal)
+    {
+        strncpy(this->numeCampion,numeCampion,strlen(numeCampion)+1);
+        this->DMGCampion=0;
+        this->tipOmAnimal=tipOmAnimal;
+    }
+
+//functionalitate care imi intoarce dmg ul real
+    float realDMG()
+    {
+        if(this->tipOmAnimal)
+            return DMGCampion*3;
+        else
+            return DMGCampion*2;
+    }
+
+//>>
+    friend istream& operator>>(istream& in, Campion& Ch)
+    {
+        cout<<"\nNumele campionului: ";
+        in>>Ch.numeCampion;
+        cout<<"\nDMG-ul campionului: ";
+        in>>Ch.DMGCampion;
+        cout<<"\NTip campion Om/Animal (1/0): ";
+        in>>Ch.tipOmAnimal;
+
+        return in;
+    }
+//<<
+    friend ostream& operator<<(ostream& out,const Campion Ch)
+    {
+        out<<"\nCampionul "<<Ch.numeCampion<<" este de tip ";
+        if(!Ch.tipOmAnimal)
+            out<<"animal";
+        else
+            out<<"om";
+        out<<" si are DMG: "<<Ch.DMGCampion<<" !";
+        return out;
+    }
+//copy const
+    Campion (const Campion &Ch)
+    {
+        strncpy(this->numeCampion,Ch.numeCampion,strlen(Ch.numeCampion)+1);
+        this->DMGCampion=Ch.DMGCampion;
+        this->tipOmAnimal=Ch.tipOmAnimal;
+    }
+//= const
+    Campion& operator=(const Campion& Ch)
+    {
+        if(this!=&Ch)
+        {
+            strncpy(this->numeCampion,Ch.numeCampion,strlen(Ch.numeCampion)+1);
+            this->DMGCampion=Ch.DMGCampion;
+            this->tipOmAnimal=Ch.tipOmAnimal;
+        }
+        return *this;
+
+    }
+
+    ~Campion()
+    {
+
+    }
+};
+
+
+
+int main()
+{
+    Echipa::mesaj();
+    cout<<endl;
+
+    /*Echipa DABADA;
+    //DABADA.afisare();
+    DABADA.setNumeEchipa("Invincibilii");
+    cout<<endl<<DABADA.getNumeEchipa()<<endl;
+    */
+    /* char nume1[]="Avengers";
+     int locuri[]= {1,3,2,1,1,1,4};
+     char v[100]="urf";
+     Echipa Daa(1,nume1,7,locuri,0,'S',v,21.3);
+
+     Daa.afisare();*/
+    /*
+        Echipa Nou,dad;
+        //cout<<Nou;
+        //cin>>Nou;
+        //Nou.citire();
+        //dad.citire();
+        //cout<<Nou;
+        //cin>>dad;
+        Nou.afisare();
+        dad.afisare();
+
+        cout<<endl<<Daa.getNrLocuriCastigate()<<endl<<*Daa.getLocuriCastigate()<<endl<<Daa.getNumeUltTurn();
+
+        Daa.setNumeUltTurn("Halabamama");
+        Daa.afisare();
+        Echipa Baietasii(23,"Baietasii",1);
+        Baietasii.afisare();
+        Echipa Cr;
+        Daa.afisare();
+        Baietasii.setNrLocuriCastigate(7);
+        Baietasii.afisare();
+        Cr=Daa+Baietasii;
+        Cr.afisare();
+        Cr++;
+        Cr.afisare();
+        cout<<Cr.getMedieVarsta();
+        cout<<(int)Cr.getMedieVarsta();
+
+        cout<<endl<<"AICI INCEPE: ";
+        cout<<Daa.getNumeEchipa()<<" "<<Daa.getNrLocuriCastigate()<<endl;
+        int* locuriCastigate2=Daa.getLocuriCastigate();
+        for(int i=0;i<Daa.getNrLocuriCastigate();i++)
+            cout<<*(locuriCastigate2+i)<<" ";
+        cout<<endl<<endl;*/
+    /*  cout<<Daa.getNumeEchipa()<<" ";
+      Daa.setNumeEchipa("Victoriosii");
+      cout<<Daa.getNumeEchipa()<<" ";
+      cout<<endl;
+      cout<<Daa.getNrLocuriCastigate()<<": ";
+
+      /*
+      int* locuriCastigate3=Daa.getLocuriCastigate();
+      for(int i=0;i<Daa.getNrLocuriCastigate();i++)
+          cout<<*(locuriCastigate3+i)<<" ";
+      cout<<endl;
+
+      int c[]={1,3,2,1,2,3};
+
+      Daa.setLocuriCastigate(c,6);
+      cout<<Daa.getNrLocuriCastigate()<<": ";
+      for(int i=0;i<Daa.getNrLocuriCastigate();i++)
+          cout<<*(locuriCastigate3+i)<<". ";
+      cout<<endl;
+      Daa.afisare();
+      cout<<endl<<Daa.getID_Echipa()<<endl<<Daa.getNumeEchipa()<<endl<<Daa.getNrLocuriCastigate()<<endl<<Daa.getLocuriCastigate()<<endl<<Daa.getJunior()<<endl<<Daa.getNota()<<endl<<Daa.getMedieVarsta();
+      //cout<<endl<<endl<<Daa.getLocuriCastigate();
+
+      cout<<endl;
+
+      //Daa.afisare();
+      Echipa E4;
+      E4=Daa;
+      Echipa E5(Daa);
+      Daa.setNumeEchipa("Basinosii");
+      cout<<"e4: ";E4.afisare();
+      cout<<"e5: ";E5.afisare();
+
+
+      Echipa Nou;
+      Nou.citire();
+      Nou.afisare();
+      cout<<"\nproba de microfon\n";
+      //cout<<Daa;
+      cout<<"\proba de telecomanda\n";
+      Echipa neww;
+      cout<<"\proba de telecomanda2\n";
+      neww.citire();
+      cout<<"\proba de telecomanda3\n";
+      neww.afisare();
+      cout<<"FINAL!";
+
+      Echipa E1,E2,E3,E4;
+      E1.citire();
+      E2.citire();
+      E3.citire();
+      E4.citire();
+      //cin>>E1>>E2>>E3>>E4;
+      cout<<E1<<E2<<E3<<E4;*/
+    /*  cout<<endl<<endl<<Daa[0]<<Daa[1]<<Daa[2]<<Daa[3];
+
+      cout<<endl<<Daa.nr1st();
+      cout<<endl;
+      Cr.afisare();
+      Cr=Cr-Daa;
+      Cr.afisare();
+      Cr.setJunior(1);
+      if(Daa>Cr)
+          cout<<"Da ba";
+      else
+          cout<<"Nu ba";
+
+    */
+    /*
+        char ad[100]="adcarry";
+        Jucator YO,TO(1,"Emanuel",ad);
+        cout<<YO;
+        //cin>>Daa;
+        //cout<<Daa;
+        char t[100]="Jungla";
+        int r[]= {4,5,3,1};
+        Jucator YOO(1,"David",19,true,'S',t,142.4,r);
+        //cout<<YOO;
+        //cout<<TO;
+        Jucator copie(YOO);
+        cout<<"AICI E COPIA: ! :\n"<<copie;*/
+    /*Jucator cop;
+    YOO.setRol("HbhbhbhbhbhbA");
+    cop=YOO;
+    //cout<<endl<<"Jucator cop=\n";
+    cout<<endl<<"cop=YOO\n";
+    cout<<cop;
+    /*Echipa R4;
+    R4=Daa;
+    R4.afisare();
+    cout<<endl<<"TATA";
+    Daa.afisare();
+    cout<<endl<<Daa.getNrLocuriCastigate()<<" : "<<*Daa.getLocuriCastigate();
+    cout<<endl<<"FINAL TATA";
+    cout<<YOO;
+    YOO.setNumeJucator("Baros");
+    cout<<YOO<<endl;
+    cout<<YOO[2];
+    cout<<YOO+cop;
+    YOO.setOreJucate(12.5);
+    cout<<YOO-cop;
+    YOO.setVarstaJucator(17);
+    YOO.setMajor(0);
+    cout<<YOO;
+    YOO++;
+    cout<<YOO;
+    cout<<endl<<"FINAL";
+    YOO--;
+    cout<<YOO;
+    cout<<endl<<YOO.notaIstoric();*/
+
+    /*
+    int kkk[]= {5,6};
+    Meci m1("4v4",43,kkk,8.7),m5("4v4",60,kkk,8.8);
+    //cin>>m1;
+    cout<<endl<<"M1"<<m1;
+    Meci m2(m1);
+    cout<<endl<<"M2"<<m2;
+    Meci m3(m1);
+
+    cout<<endl<<"M3.1"<<m3;
+    m3=m1;
+    cout<<endl<<"M3.2"<<m3;
+    cout<<endl<<"FINAL";
+    cout<<m3;
+    cout<<m5;
+    cout<<m5+m3;
+    cout<<m5-m3;
+    cout<<m5;
+    m5++;
+    cout<<m5;
+    cout<<YOO;
+    cout<<YOO.notaIstoric();
+
+    cout<<endl<<"END";
+    cout<<m5.notaMeciului();
+    Campion Warwick;
+    cin>>Warwick;
+    cout<<Warwick;*/
+
+
+
+
+    /*
+
+    int choice;
+    do
+    {
+        cout << endl
+             << " 1 - Inscriere echipa.\n"
+             << " 2 - Afisare Echipa.\n"
+             << " 3 - Ajutor.\n"
+             << " 0 - Iesire.\n"
+             << " Introduceti cifra si apoi apasati enter: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            Echipa E;
+            cin>>E;
+            cout<<E;
+            int choice1;
+
+            do
+            {
+
+
+                cout<<endl
+                    <<" 1 - Afisati numarul de turnee castigate pe primul loc al echipei "
+                    <<E.getNumeEchipa()
+                    <<"\n 2 - altcv idk\n";
+                cin >> choice1;
+
+                switch (choice1)
+                {
+                case 1:
+                    cout<<"\nNumarul de turnee castigate pe primul loc de catre echipa "<<E.getNumeEchipa()<<" este "<<E.nr1st();
+                    break;
+                case 2:
+
+                    break;
+                case 0:
+                    cout << "SF.\n";
+                    break;
+                default:
+                    cout << "Not a Valid Choice. \n"
+                         << "Choose again.\n";
+                    break;
+                }
+
+            }
+            while (choice1 !=0);
+
+
+
+
+        }
+        case 2:
+
+            break;
+        case 3:
+        {
+            cout<<"\nAplicatia este una care se ocupa cu... E TARE\n";
+        }
+        break;
+        case 0:
+            cout << "Sfarsit.\n";
+            break;
+        default:
+            cout << "Nu exista aceasta optiune. \n"
+                 << "Alegeti din nou.\n";
+            break;
+        }
+
+    }
+    while (choice !=0);
+        */
+
+    return 0;
+}
 
