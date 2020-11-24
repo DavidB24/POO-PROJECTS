@@ -1,1 +1,178 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
 
+
+class Decoratiune
+{
+private:
+    char* nume;
+    float pret;
+    char* culoare;
+    bool reciclabila;
+
+public:
+
+    Decoratiune()
+    {
+        nume="NULL";
+        culoare="NULL";
+        reciclabila=false;
+        pret=0;
+    }
+
+    Decoratiune(char* nume,float pret,char* culoare, bool reciclabila)
+    {
+        this->nume=new char[strlen(nume)+1];
+        strcpy(this->nume,nume);
+
+        this->pret=pret;
+
+        this->culoare=new char[strlen(culoare)+1];
+        strcpy(this->culoare,culoare);
+
+        this->reciclabila=reciclabila;
+    }
+//set
+    void setNume(char* nume)
+    {
+        if(this->nume!=NULL)
+            delete[] this->nume;
+        this->nume=new char[strlen(nume)+1];
+        strcpy(this->nume,nume);
+    }
+
+    void setCuloare(char* culoare)
+    {
+        if(this->culoare!=NULL)
+            delete[] this->culoare;
+        this->culoare=new char[strlen(culoare)+1];
+        strcpy(this->culoare,culoare);
+    }
+
+    void setReciclabila(bool reciclabila)
+    {
+        this->reciclabila=reciclabila;
+    }
+
+    void setPret(float pret)
+    {
+        this->pret=pret;
+    }
+//get
+    char* getNume()
+    {
+        return this->nume;
+    }
+
+    char* getCuloare()
+    {
+        return this->culoare;
+    }
+
+    bool getReciclabila()
+    {
+        return this->reciclabila;
+    }
+
+    float getPret()
+    {
+        return this->pret;
+    }
+
+    friend ostream& operator<<(ostream& out,const Decoratiune& Decor)
+    {
+        out<<Decor.nume<<endl;
+        return out;
+    }
+
+    void afisare()
+    {
+        cout<<"Decoratiune: "<<this->nume<<endl<<"Pret: "<<this->pret<<endl<<"Culoare: "<<this->culoare<<endl;
+        if(this->reciclabila)
+            cout<<"Este reciclabila.\n";
+        else
+            cout<<"Din pacate nu este reciclabila\n";
+    }
+
+    ~Decoratiune()
+    {
+        if(this->nume!=nullptr)
+            delete[] this->nume;
+        if(this->pret!=NULL)
+            this->pret=0;
+        if(this->culoare!=nullptr)
+            delete[] this->culoare;
+    }
+
+
+
+};
+
+
+
+
+class ListaProduse
+{
+    int nrDecoratiuni;
+    Decoratiune decoratiuni[100];
+public:
+    ListaProduse()
+    {
+
+    }
+    void setDecoratiune(int nrDecoratiuni,Decoratiune decoratiuni[100])
+    {
+        this->nrDecoratiuni=nrDecoratiuni;
+        for(int i=1;i<=nrDecoratiuni;i++)
+        {
+            this->decoratiuni[i]=decoratiuni[i];
+        }
+    }
+    Decoratiune getDecoratiune(int index)
+    {
+        return this->decoratiuni[index];
+    }
+    Decoratiune operator[](int i)
+    {
+        if(i>0 && i<=nrDecoratiuni)
+            return this->decoratiuni[i];
+    }
+    ListaProduse& operator+(Decoratiune decoratiune)
+    {
+        this->nrDecoratiuni+=1;
+        this->decoratiuni[nrDecoratiuni]=decoratiune;
+        return *this;
+    }
+    ListaProduse remove(int index)
+    {
+        for(int i=1;i<nrDecoratiuni;i++)
+            this->decoratiuni[i]=this->decoratiuni[i+1];
+        nrDecoratiuni--;
+    }
+    float Pret()
+    {
+        float x=0;
+        for(int i=1;i<=nrDecoratiuni;i++)
+            x=x+this->decoratiuni[i].getPret();
+        return x;
+    }
+
+    ~ListaProduse()
+    {
+
+    }
+};
+
+int main()
+{
+    Decoratiune a;
+    a.afisare();
+    ListaProduse b;
+    b=b+a;
+    cout<<b[1]<<endl;
+    cout<<b[1].getPret()<<endl;
+    cout<<b.Pret()<<endl;
+    b.remove(1);
+    return 0;
+}
